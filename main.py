@@ -15,7 +15,7 @@ intents.messages = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 cogs = [
-    #"rq_acc",
+    "rq_acc",
     "add_user",
     "linux_perf"
 ]

@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import json
 
-with open("/root/discord_bot/user_data.json", "r") as f:
+with open("user_data_example.json", "r") as f:
     user_data = json.load(f)
     
 class rq_acc(commands.Cog):
@@ -24,7 +24,7 @@ class rq_acc(commands.Cog):
           )
           await interaction.response.send_message(":green_circle: Логин найден. Данные для подключения в яичке.", ephemeral=True)
       else:
-          await interaction.response.send_message(":red_circle: Доступ не предоставлен. Обратись к @280405441530298370.", ephemeral=True)
+          await interaction.response.send_message(":red_circle: Доступ не предоставлен. Обратись к администратору.", ephemeral=True)
           
   @commands.Cog.listener()
   async def on_ready(self):
