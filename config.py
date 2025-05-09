@@ -20,4 +20,3 @@ def make_path(filepath: str):
 
 USERS_PATH = make_path("users.json")
 ROOT_PATH = make_path("root_data.json")
-

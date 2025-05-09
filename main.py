@@ -1,12 +1,12 @@
+from config import *
 import discord
 from discord import app_commands
 from discord.ext import commands
-import config as c
 import json
+from time import sleep
 import asyncio
 
-
-with open(c.ROOT_PATH, "r") as f:
+with open(ROOT_PATH, "r") as f:
     root_data = json.load(f)
 
 intents = discord.Intents.default()

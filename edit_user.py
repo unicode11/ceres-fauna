@@ -1,10 +1,10 @@
+from config import *
 import discord
 from discord.ext import commands
 from discord import app_commands
-import config as c
 import json
 
-with open(c.USERS_PATH, "r") as f:
+with open(USERS_PATH, "r") as f:
     user_data = json.load(f)
     
 class rq_acc(commands.Cog):

@@ -1,13 +1,13 @@
+from config import *
 import discord
 from discord.ext import commands
 from discord import app_commands
-import config as c
 import json
     
-with open(c.ROOT_PATH, "r") as f:
-    root_data = json.load(f)
+with open(ROOT_PATH, "r") as f:
+  root_data = json.load(f)
 
-def save(id: int, name: str, filename = c.USERS_PATH):
+def save(id: int, name: str, filename = USERS_PATH):
   
   data_user = {
     str(id): {

@@ -1,11 +1,11 @@
+from config import *
 import discord
 from discord.ext import commands
 from discord import app_commands
-import config as c
 import json
 import subprocess
 
-with open(c.ROOT_PATH, "r") as f:
+with open(ROOT_PATH, "r") as f:
     root_data = json.load(f)
    
 possible_commands = [
