@@ -1,12 +1,19 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import config as c
 import json
 import subprocess
 
-with open("root_data.json", "r") as f:
+with open(c.ROOT_PATH, "r") as f:
     root_data = json.load(f)
    
+possible_commands = [
+    "systemctl restart discord_bot.service",
+    "reboot"
+    
+]
+    
 def run(cmd: str):
     try:
         result = subprocess.run(cmd,
@@ -20,7 +27,9 @@ class linux_perf(commands.Cog):
     self.bot = bot
 
   @app_commands.command(name="cmd", description="ROOT_TERMINAL_CMD.")
-  async def request_access(self, interaction: discord.Interaction, *, command: str):
+  @app_commands.describe(command="Command to run.")
+  @app_commands.choices(command=[app_commands.Choice(name=cmd, value=cmd) for cmd in possible_commands])
+  async def request_access(self, interaction: discord.Interaction, *, command: str | None):
       if str(interaction.user.id) == root_data["root_id"]:
           out, err = run(command)
           if out:

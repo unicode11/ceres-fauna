@@ -1,13 +1,12 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+import config as c
 import json
 import asyncio
 
 
-with open("user_data_example.json", "r") as f:
-    user_data = json.load(f)
-with open("root_data.json", "r") as f:
+with open(c.ROOT_PATH, "r") as f:
     root_data = json.load(f)
 
 intents = discord.Intents.default()
