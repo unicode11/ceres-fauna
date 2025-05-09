@@ -3,12 +3,11 @@ from discord import app_commands
 from discord.ext import commands
 import json
 import asyncio
-import os
 
 
-with open("/root/discord_bot/user_data.json", "r") as f:
+with open("user_data_example.json", "r") as f:
     user_data = json.load(f)
-with open("/root/discord_bot/root_data.json", "r") as f:
+with open("root_data.json", "r") as f:
     root_data = json.load(f)
 
 intents = discord.Intents.default()
@@ -16,7 +15,7 @@ intents.messages = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 cogs = [
-    "rq_acc",
+    #"rq_acc",
     "add_user",
     "linux_perf"
 ]
@@ -32,7 +31,7 @@ async def on_command_error(ctx, error):
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error):
-    await interaction.response.send_message(f":x:\n{error}", ephemeral=True)
+    await interaction.response.send_message(f":x:\n\n{error}", ephemeral=True)
 
 async def main():
   print (">> LOAD")

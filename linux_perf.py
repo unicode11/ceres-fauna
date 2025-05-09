@@ -1,11 +1,10 @@
-from asyncio import sleep
 import discord
 from discord.ext import commands
 from discord import app_commands
 import json
 import subprocess
 
-with open("/root/discord_bot/root_data.json", "r") as f:
+with open("root_data.json", "r") as f:
     root_data = json.load(f)
    
 def run(cmd: str):
@@ -22,7 +21,6 @@ class linux_perf(commands.Cog):
 
   @app_commands.command(name="cmd", description="ROOT_TERMINAL_CMD.")
   async def request_access(self, interaction: discord.Interaction, *, command: str):
-      """ROOT_TERMINAL_CMD_DESC."""
       if str(interaction.user.id) == root_data["root_id"]:
           out, err = run(command)
           if out:

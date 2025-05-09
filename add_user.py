@@ -1,33 +1,57 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-import os
+import os 
 import json
     
-with open("/root/discord_bot/root_data.json", "r") as f:
+with open("root_data.json", "r") as f:
     root_data = json.load(f)
 
-def save(data):
-  obj = json.dumps(data, indent=4)
-  print(">> USER ADD\n", data)
-  try:
-    with open("/root/discord_bot/user_data_add.json","w") as f:
-      f.write(obj)
-  except:
-    print("^^^^^^ Couldn't write a file. Sorry. :c ^^^^^^^")
+def save(id: int, name: str, filename = "users.json"):
+  
+  data_user = {
+    str(id): {
+      "login": name,
+      "proxy1": "value1",
+      "proxy2": "value2",
+    }    
+  }
+
+  
+  with open(filename, 'r', encoding='utf-8') as f:
+      data = json.load(f)
+
+  data.update(data_user)
+
+  with open(filename, 'w', encoding='utf-8') as f:
+    print(f"saving {data}")
+    json.dump(data, f, ensure_ascii=False, indent=4)
  
 class add_user(commands.Cog):
   def __init__(self, bot):
         self.bot = bot
 
+
   @app_commands.command(name="add_user", description="ROOT_ADD_USER_CMD.")
-  async def request_access(self, interaction: discord.Interaction, user: discord.User):  
+  @app_commands.describe(user="Пользователь (Находящийся на сервере)(В случае если его нет на сервере - ввести ID)")
+  @app_commands.describe(name="Логин (косметическое)")
+  async def add_user(self, interaction: discord.Interaction, 
+                           user: discord.Member | None,
+                           name: str = None
+                           ):  
       if str(interaction.user.id) == root_data["root_id"]:
-        await interaction.response.send_message(f"Подключаю {user.mention}...",ephemeral=True)
+        if user != str:
+          if name == None: name = user.name
+        elif user == str:
+          if name == None: name = user
+        else:
+          await interaction.response.send_message("Такого дебила нет или ничего не было введено",ephemeral=True)
+
+        save(user.id, name)
         
-        # ДАННЫЕ ДЛЯ ПОДКЛЮЧЕНИЯ
-        login = {"login": str(user.name)}
-        id = (str(interaction.user.id))
+
+        print(f"Подключила {user} {user.id}, {user.name}")
+        await interaction.response.send_message(f"Успешно! {user} теперь крокодил.",ephemeral=True)
         
       else:
         await interaction.response.send_message(":x:",ephemeral=True)
