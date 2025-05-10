@@ -1,12 +1,5 @@
 *.json
 
-# nice fucking try yet didn't do shit :3
-# i guess best is just to ignore pycache shit
-*.pyc
-
-
-
-
 # example taken from github
 
 # Byte-compiled / optimized / DLL files

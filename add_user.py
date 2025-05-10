@@ -8,7 +8,6 @@ with open(ROOT_PATH, "r") as f:
   root_data = json.load(f)
 
 def save(id: int, name: str, filename = USERS_PATH):
-  
   data_user = {
     str(id): {
       "login": name,
@@ -17,10 +16,8 @@ def save(id: int, name: str, filename = USERS_PATH):
     }    
   }
 
-  
   with open(filename, 'r', encoding='utf-8') as f:
       data = json.load(f)
-
   data.update(data_user)
 
   with open(filename, 'w', encoding='utf-8') as f:

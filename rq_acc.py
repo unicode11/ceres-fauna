@@ -1,17 +1,17 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-import config as c
+from config import *
 import json
 
-with open(c.USERS_PATH, "r") as f:
+with open(USERS_PATH, "r") as f:
     user_data = json.load(f)
     
 class rq_acc(commands.Cog):
   def __init__(self, bot):
         self.bot = bot
 
-  @app_commands.command(name="request_access", description="Для получения ключа доступа к прокси.")
+  @app_commands.command(name="request_access", description="Для получения ссылки доступа к прокси.")
   async def request_access(self, interaction: discord.Interaction):
       user_id = str(interaction.user.id)
   

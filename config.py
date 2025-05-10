@@ -1,15 +1,11 @@
 import os
 from json import dump
 
-# making paths for nonexistant files or checking if they exist i dunno fkoff
-# LAGGY AS FUCK
-# def make_path(path: str | Path):
-#     created_path = Path(path)
-#     created_path.touch(exist_ok=True)
-#     return created_path
-
-def make_path(filepath: str):
-    if not os.path.exists(filepath):
+def make_path(
+    filepath: str, 
+    create: bool
+    ):
+    if not os.path.exists(filepath) and create:
         with open(filepath, 'w', encoding='utf-8') as f:
             if filepath.lower().endswith('.json'):
                 dump({},f, ensure_ascii=False, indent=4)
@@ -18,5 +14,6 @@ def make_path(filepath: str):
     else:
         return filepath
 
-USERS_PATH = make_path("users.json")
-ROOT_PATH = make_path("root_data.json")
+USERS_PATH = make_path("users.json", True) # path that will be created by "add_user" command
+ROOT_PATH = make_path("root_data.json", True) # path that have bot token and root user discord ID
+XRAY_CFG_PATH = make_path("config_xray.json", False) # path, created by xray service, no need to create this by bot

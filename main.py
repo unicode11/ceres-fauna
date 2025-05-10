@@ -3,7 +3,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import json
-from time import sleep
 import asyncio
 
 with open(ROOT_PATH, "r") as f:
