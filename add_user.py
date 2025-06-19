@@ -32,17 +32,17 @@ class add_user(commands.Cog):
     @app_commands.describe(user="Пользователь (Находящийся на сервере)(В случае если его нет на сервере - ввести ID)")
     @app_commands.describe(name="Логин (косметическое)")
     async def add_user(self, interaction: discord.Interaction,
-                       user: discord.Member | "None",
-                       name: str = "None"
+                       user: discord.Member ,
+                       name: str
                        ):
         if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return
         
         if user != str:
-            if name == "None": name = user.name
+            if name == None: name = user.name
         elif user == str:
-            if name == "None": name = user
+            if name == None: name = user
         else:
             await interaction.response.send_message("Такого дебила нет или ничего не было введено", ephemeral=True)
 
