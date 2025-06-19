@@ -6,10 +6,6 @@ from discord.ext import commands
 
 from config import *
 
-with open(ROOT_PATH, "r") as f:
-    root_data = json.load(f)
-
-
 def save(id: int, name: str, filename=USERS_PATH):
     data_user = {
         str(id): {
@@ -39,21 +35,21 @@ class add_user(commands.Cog):
                        user: discord.Member | None,
                        name: str = None
                        ):
-        if str(interaction.user.id) == root_data["root_id"]:
-            if user != str:
-                if name == None: name = user.name
-            elif user == str:
-                if name == None: name = user
-            else:
-                await interaction.response.send_message("Такого дебила нет или ничего не было введено", ephemeral=True)
-
-            save(user.id, name)
-
-            print(f"Подключила {user} {user.id}, {user.name}")
-            await interaction.response.send_message(f"Успешно! {user} теперь крокодил.", ephemeral=True)
-
+        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
+            await interaction.response.send_message(":x:.", ephemeral=True)
+            return
+        
+        if user != str:
+            if name == None: name = user.name
+        elif user == str:
+            if name == None: name = user
         else:
-            await interaction.response.send_message(":x:", ephemeral=True)
+            await interaction.response.send_message("Такого дебила нет или ничего не было введено", ephemeral=True)
+
+        save(user.id, name)
+        print(f"Подключила {user} {user.id}, {user.name}")
+        await interaction.response.send_message(f"Успешно! {user} теперь крокодил.", ephemeral=True)
+
 
     @commands.Cog.listener()
     async def on_ready(self):

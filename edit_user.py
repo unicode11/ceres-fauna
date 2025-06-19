@@ -6,16 +6,15 @@ from discord.ext import commands
 
 from config import *
 
-with open(USERS_PATH, "r") as f:
-    user_data = json.load(f)
-
-
 class edit_user(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @app_commands.command(name="edit_user", description="ROOT_EDIT_USER_CMD.")
     async def edit_user(self, interaction: discord.Interaction):
+        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
+            await interaction.response.send_message(":x:.", ephemeral=True)
+            return
         print("test")
 
     @commands.Cog.listener()

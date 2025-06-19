@@ -7,9 +7,6 @@ from discord.ext import commands
 
 from config import *
 
-with open(ROOT_PATH, "r") as f:
-    root_data = json.load(f)
-
 intents = discord.Intents.default()
 intents.messages = True
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -19,7 +16,6 @@ cogs = [
     "add_user",
     "linux_perf"
 ]
-
 
 @bot.event
 async def on_ready():
@@ -45,7 +41,7 @@ async def main():
             print(f"{cog}")
         print(">> DONE")
 
-        await bot.start(root_data["token"])
+        await bot.start(read(ROOT_PATH)["token"])
 
 
 asyncio.run(main())

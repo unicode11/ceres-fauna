@@ -7,15 +7,12 @@ from discord.ext import commands
 
 from config import *
 
-with open(ROOT_PATH, "r") as f:
-    root_data = json.load(f)
-
 possible_commands = [
     "systemctl restart discord_bot.service",
-    "reboot"
+    "reboot",
+    "echo"
 
 ]
-
 
 def run(cmd: str):
     try:
@@ -33,15 +30,15 @@ class linux_perf(commands.Cog):
     @app_commands.command(name="cmd", description="ROOT_TERMINAL_CMD.")
     @app_commands.describe(command="Command to run.")
     @app_commands.choices(command=[app_commands.Choice(name=cmd, value=cmd) for cmd in possible_commands])
-    async def request_access(self, interaction: discord.Interaction, *, command: str | None):
-        if str(interaction.user.id) == root_data["root_id"]:
-            out, err = run(command)
-            if out:
-                await interaction.response.send_message(f":white_check_mark:\n```{out}```", ephemeral=False)
-            if err:
-                await interaction.response.send_message(f":x:\n```{err}```", ephemeral=False)
-        else:
+    async def linux_perf(self, interaction: discord.Interaction, *, command: str | None):
+        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
             await interaction.response.send_message(":x:.", ephemeral=True)
+            return
+        out, err = run(command)
+        if out:
+            await interaction.response.send_message(f":white_check_mark:\n```{out}```", ephemeral=False)
+        if err:
+            await interaction.response.send_message(f":x:\n```{err}```", ephemeral=False)
 
     @commands.Cog.listener()
     async def on_ready(self):
