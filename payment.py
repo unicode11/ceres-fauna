@@ -58,33 +58,33 @@ def link(receiver: str, username: str, amount: float) -> tuple[str, str]:
     full_url = f"{YM_URL}?{urllib.parse.urlencode(params, quote_via=urllib.parse.quote)}"
     return full_url, label
 
-def check(label: str) -> Optional[dict]:
-    headers = {
-        "Authorization": f"Bearer {read(ROOT_PATH)["yoomoney_token"]}"
-    }
+# def check(label: str) -> Optional[dict]:
+#     headers = {
+#         "Authorization": f"Bearer {read(ROOT_PATH)["yoomoney_token"]}"
+#     }
 
-    response = requests.post(
-        "https://yoomoney.ru/api/operation-history",
-        headers=headers,
-        json={"label": label}
-    )
+#     response = requests.post(
+#         "https://yoomoney.ru/api/operation-history",
+#         headers=headers,
+#         json={"label": label}
+#     )
 
-    if response.status_code != 200:
-        print(f"Ошибка API: {response.status_code}, {response.text}")
-        return None
+#     if response.status_code != 200:
+#         print(f"Ошибка API: {response.status_code}, {response.text}")
+#         return None
 
-    data = response.json()
-    operations = data.get("operations", [])
+#     data = response.json()
+#     operations = data.get("operations", [])
 
-    for op in operations:
-        if (
-            op.get("label") == label and
-            op.get("status") == "success" and
-            float(op.get("amount", 0))
-        ):
-            return op 
+#     for op in operations:
+#         if (
+#             op.get("label") == label and
+#             op.get("status") == "success" and
+#             float(op.get("amount", 0))
+#         ):
+#             return op 
 
-    return None
+#     return None
 
 class payment(commands.Cog):
     def __init__(self, bot):
