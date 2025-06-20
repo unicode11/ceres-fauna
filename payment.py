@@ -128,13 +128,13 @@ class payment(commands.Cog):
             return
 
         await interaction.response.defer(thinking=True)
-        result = check(label)
+        # result = check(label)
 
 
-        if not result:
-            await interaction.followup.send("❌ Платёж не найден или ещё не обработан.")
-            return
-        await interaction.followup.send("✅ Оплата успешно подтверждена и записана.")
+        # if not result:
+        #     await interaction.followup.send("❌ Платёж не найден или ещё не обработан.")
+        #     return
+        # await interaction.followup.send("✅ Оплата успешно подтверждена и записана.")
 
 
 
