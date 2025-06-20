@@ -27,10 +27,11 @@ def populate_root():
         
     penis = {
         "token": "BOT_TOKEN_HERE",
-        "root_id": "ADMIN_DISCORD_ID"
+        "root_id": "ADMIN_DISCORD_ID",
+        "yoomoney_id": "YOOMONEY_WALLET_ID",
     }
     
-    required = {"token","root_id"}
+    required = set(penis.keys())
     if not required.issubset(data):
         with open(ROOT_PATH, 'w', encoding='utf-8') as f:
             print(f"saving {penis}")

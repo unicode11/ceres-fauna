@@ -14,7 +14,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 cogs = [
     "rq_acc",
     "add_user",
-    "linux_perf"
+    "linux_perf",
+    "payment"
 ]
 
 @bot.event
