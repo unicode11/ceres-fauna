@@ -94,10 +94,6 @@ class payment(commands.Cog):
     async def payment(self, 
                       interaction: discord.Interaction,
                       amount: float):
-        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
-            await interaction.response.send_message(":x:.", ephemeral=True)
-            return
-        
         payment_url, label = link(
             receiver=YM,
             username=interaction.user,
