@@ -113,17 +113,17 @@ class payment(commands.Cog):
         }
         send(penis)
         
-        with open("payments.json", "a", encoding="utf-8") as f:
-            f.write(json.dumps(penis) + "\n")
+        # with open("payments.json", "a", encoding="utf-8") as f:
+        #     f.write(json.dumps(penis) + "\n")
     
         await interaction.response.send_message(
-            f"К оплате: **{amount}₽**, {payment_url}\nУникальный label для этой оплаты - `{label}` (сохраните его для проверки оплаты)"
+            f"К оплате: **{amount}₽**, {payment_url}\n~~Уникальный label для этой оплаты - `{label}` (сохраните его для проверки оплаты)~~\n^- Забей хуй, пока в разработке /shrug"
         )
         
     @app_commands.command(name="check_payment",description="Проверить оплату.")
     async def check_payment(self, interaction: discord.Interaction, label: str):
         if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
-            await interaction.response.send_message(":x:", ephemeral=True)
+            await interaction.response.send_message("Команда в разработке.", ephemeral=True)
             return
 
         await interaction.response.defer(thinking=True)
