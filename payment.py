@@ -117,7 +117,7 @@ class payment(commands.Cog):
         #     f.write(json.dumps(penis) + "\n")
     
         await interaction.response.send_message(
-            f"К оплате: **{amount}₽**, {payment_url}\n~~Уникальный label для этой оплаты - `{label}` (сохраните его для проверки оплаты)~~\n^- Забей хуй, пока в разработке /shrug",
+            f"К оплате: **{amount}₽**, {payment_url}\n~~Уникальный label для этой оплаты - `{label}` (сохраните его для проверки оплаты)~~ <- Забей хуй, пока в разработке /shrug",
             ephemeral=True
         )
         
