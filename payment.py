@@ -11,7 +11,6 @@ from config import *
 
 YM = read(ROOT_PATH)["yoomoney_id"]
 YM_URL = "https://yoomoney.ru/quickpay/confirm"
-WB = "https://discord.com/api/webhooks/1385566546155274360/k3sdztVXjfxDuswWMowi1M0iVEzQInbzFFNkgafHAPdQibGcCTigO8pcuR30BLqn8cUM"
 GIF = "https://cdn.discordapp.com/attachments/1149826600167297135/1226869385323483136/14.gif?ex=6856a3a7&is=68555227&hm=2f960382d560aa7e09dc7f8350f17841d0b53457cc20cd041e362c2c651c7030&"
 
 def send(data: dict):
