@@ -112,7 +112,7 @@ class payment(commands.Cog):
         
         # with open("payments.json", "a", encoding="utf-8") as f:
         #     f.write(json.dumps(penis) + "\n")
-        await interaction.user.send(WB)
+        await interaction.user.send(GIF)
         await interaction.response.send_message(
             f"К оплате: **{amount}₽**, {payment_url}\n~~Уникальный label для этой оплаты - `{label}` (сохраните его для проверки оплаты)~~ <- Забей хуй, пока в разработке /shrug",
             ephemeral=True
