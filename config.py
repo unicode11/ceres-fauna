@@ -29,6 +29,7 @@ def populate_root():
         "token": "BOT_TOKEN_HERE",
         "root_id": "ADMIN_DISCORD_ID",
         "yoomoney_id": "YOOMONEY_WALLET_ID",
+        "webhook": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
     }
     
     required = set(penis.keys())
