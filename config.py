@@ -1,11 +1,15 @@
 import os
 import json
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # линуксоиды уебаны если что
+
 def make_path(
         filepath: str,
         create: bool
 ):
-    if not os.path.exists(filepath) and create:
+    full_path = os.path.join(BASE_DIR, filepath)
+    
+    if not os.path.exists(full_path) and create:
         with open(filepath, 'w', encoding='utf-8') as f:
             if filepath.lower().endswith('.json'):
                 json.dump({}, f, ensure_ascii=False, indent=4)
