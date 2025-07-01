@@ -1,7 +1,5 @@
-import json
 import uuid
 import requests
-from typing import Optional
 import discord
 import urllib.parse
 from discord import app_commands
@@ -95,6 +93,10 @@ class payment(commands.Cog):
     async def payment(self, 
                       interaction: discord.Interaction,
                       amount: float):
+        if amount <= 10 and not interaction.user.id==read(ROOT_PATH)["root_id"]: # для дебаггинга (я не буду 11 рублей отпроавлять)
+            interaction.response.send_message("Введена слишком маленькая сумма! ~~Нищеброд ебанный~~",ephemeral=True)
+            return
+        
         payment_url, label = link(
             receiver=YM,
             username=interaction.user,
@@ -124,7 +126,7 @@ class payment(commands.Cog):
             await interaction.response.send_message("Команда в разработке.", ephemeral=True)
             return
 
-        await interaction.response.defer(thinking=True)
+        # await interaction.response.defer(thinking=True)
         # result = check(label)
 
 

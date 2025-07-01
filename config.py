@@ -19,31 +19,39 @@ def read(path:str):
         with open(path, "r") as f:
             return json.load(f)
     except:
-        "couldn't read"
+        f"couldn't read {path}" # oopsie woopsie стоило раньше это сделать)
+
     
-def populate_root():
-    with open(ROOT_PATH,'r', encoding="utf-8") as f:
+def populate(config_file, config_json_example, to_edit=False):
+    with open(config_file,'r', encoding="utf-8") as f:
         data = json.load(f)
         
-    penis = {
-        "token": "BOT_TOKEN_HERE",
-        "root_id": "ADMIN_DISCORD_ID",
-        "yoomoney_id": "YOOMONEY_WALLET_ID",
-        "webhook": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
-    }
-    
-    required = set(penis.keys())
-    if not required.issubset(data):
-        with open(ROOT_PATH, 'w', encoding='utf-8') as f:
-            print(f"saving {penis}")
-            json.dump(penis, f, ensure_ascii=False, indent=4)
-        
-# no edit above
-
+    required = set(config_json_example.keys())
+    if not required.issubset(data) and to_edit:
+        with open(config_file, 'w', encoding='utf-8') as f:
+            print(f"saving {root}")
+            json.dump(config_json_example, f, ensure_ascii=False, indent=4)
+            
 USERS_PATH = make_path("users.json", True)  # path that will be created by "add_user" command
-ROOT_PATH = make_path("root_data.json", True)  # path that have bot token and root user discord ID
+ROOT_PATH = make_path("root_data.json", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
+FAQ_PATH = make_path("questions.json",True) # path that have FAQ and answers (auto-filled, do not add new objects)
 XRAY_CFG_PATH = make_path("config_xray.json", False)  # path, created by xray service, no need to create this by bot
 
-# no edit below
+root = {
+    "token": "BOT_TOKEN_HERE",
+    "root_id": "ADMIN_DISCORD_ID",
+    "yoomoney_id": "YOOMONEY_WALLET_ID",
+    "webhook": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
+}
 
-populate_root()
+faq = {
+    "CATEGORY": {
+        "QUESTION": "ANSWER"
+    },
+    "CATEGORY2": {
+        "QUESTION": "ANSWER"
+    }
+}
+
+populate(ROOT_PATH, root, True)
+populate(FAQ_PATH, faq)

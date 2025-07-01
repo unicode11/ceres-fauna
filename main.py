@@ -1,5 +1,4 @@
 import asyncio
-import json
 
 import discord
 from discord import app_commands
@@ -15,7 +14,8 @@ cogs = [
     "rq_acc",
     "add_user",
     "linux_perf",
-    "payment"
+    "payment",
+    # "faq"
 ]
 
 @bot.event
