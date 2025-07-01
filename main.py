@@ -15,6 +15,7 @@ cogs = [
     "add_user",
     "linux_perf",
     "payment",
+    "edit_user",
     "faq"
 ]
 

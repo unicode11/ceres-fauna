@@ -50,32 +50,30 @@ class faq(commands.Cog):
         self.bot = bot
         self.faq = FAQ
         
-    def categories(self):
-        return list(FAQ.keys())
-    
+    def categories(self) -> list:
+        return list(self.faq.keys())
+        
     @app_commands.command(name="faq", description="Просмотреть список частозадаваемых вопросов (Чаще всего - решение проблем, связанных с подключением).")
-    @app_commands.describe(category="Категория вопросов")   
+    @app_commands.describe(category="Категория вопросов")
     async def faq(self, interaction: discord.Interaction, category: str):
-        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
-            await interaction.response.send_message(":x:.", ephemeral=True)
-            return
+        print("да я еблан")
+        # data = self.faq.get(category)
+        # if not data:
+        #     await interaction.response.send_message("Такой категории не существует или произошла ошибка.", ephemeral=True)
+        #     return
         
-        data = self.faq.get(category)
-        if not data:
-            await interaction.response.send_message("Такой категории не существует или произошла ошибка.", ephemeral=True)
-            return
+        # view = faq_ui(category, data, interaction.user)
+        # await interaction.response.send_message(embed=view.format_embed(), view=view, ephemeral=True)        
         
-        view = faq_ui(category, data, interaction.user)
-        await interaction.response.send_message(embed=view.format_embed(), view=view, ephemeral=True)        
+    
+    # @faq.autocomplete('category')
+    # async def faq_autocomplete(self, interaction: discord.Interaction, current: str): # я вчера твою мать ебал
+    #     return [
+    #         app_commands.Choice(name=cat, value=cat)
+    #         for cat in self.categories()
+    #         if current.lower() in cat.lower()
+    #     ]
         
-    @faq.autocomplete('category')
-    async def faq_autocomplete(self, interaction: discord.Interaction, current: str): # я вчера твою мать ебал
-        return [
-            app_commands.Choice(name=cat, value=cat)
-            for cat in self.categories()
-            if current.lower() in cat.lower()
-        ]
-
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.tree.sync()
