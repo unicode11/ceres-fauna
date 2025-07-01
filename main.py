@@ -15,7 +15,7 @@ cogs = [
     "add_user",
     "linux_perf",
     "payment",
-    # "faq"
+    "faq"
 ]
 
 @bot.event
