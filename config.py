@@ -16,7 +16,7 @@ class Config:
 
     def MakePath(
             path: str,
-            create: bool
+            create: bool=True
     ):
         full_path = os.path.join(BASE_DIR, path)
         
@@ -50,16 +50,26 @@ class Config:
 
 
         
-    def Fill(path, example, to_edit=False):
+    def Fill(path, example):
         if Config.Check(path)=="json":
-            with open(path,'r', encoding="utf-8") as f:
-                data = json.load(f)
-                
-            required = set(example.keys())
-            if not required.issubset(data) and to_edit:
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+            except (json.JSONDecodeError, FileNotFoundError):
+                print(f"[CONFIG---{path}] ERROR")
+                return
+
+            updated = False
+            for key, value in example.items():
+                if key not in data:
+                    data[key] = value
+                    updated = True
+
+            if updated:
                 with open(path, 'w', encoding='utf-8') as f:
-                    print(f"saving {root}")
-                    json.dump(example, f, ensure_ascii=False, indent=4)
+                    json.dump(data, f, ensure_ascii=False, indent=4)
+                    print(f"[CONFIG---{path}] добавлены недостающие ключи:\n{data}\nsuccess")
+                    
         else:
             existing = dotenv.dotenv_values(path)
             for var,ex in example.items():
@@ -72,35 +82,38 @@ class Config:
                     print(f"[CONFIG---{path}] added {var}")
                     dotenv.set_key(path, var, ex)
             
-USERS_PATH = Config.MakePath("users.json", True)  # path that have user data for /request_access (rq_acc.py) command
-ROOT_PATH = Config.MakePath("root_data.env", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
-FAQ_PATH = Config.MakePath("questions.json", True) # path that have FAQ and answers (auto-filled, do not add new objects)
-XRAY_CFG_PATH = Config.MakePath("config_xray.json", False)  # path, created by xray service, no need to create this by bot
+USERS_PATH = Config.MakePath("users.json")  # path that have user data for /request_access (rq_acc.py) command
+ROOT_PATH = Config.MakePath("root_data.env")  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
+FAQ_PATH = Config.MakePath("questions.json") # path that have FAQ and answers (auto-filled, do not add new objects)
+DIFF_PATH = Config.MakePath("diff.json") # path that contains various answers for different commands
+# XRAY_CFG_PATH = Config.MakePath("config_xray.json", False)  # path, created by xray service, no need to create this by bot
 
-root = {
-    "TOKEN": "DISCORD_BOT_TOKEN",
-    "ROOT_ID": "ADMIN_DISCORD_ID",
-    "YOOMONEY_ID": "YOOMONEY_WALLET_ID",
-    "WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
-}
+Config.Fill(ROOT_PATH, {
+"TOKEN": "DISCORD_BOT_TOKEN",
+"ROOT_ID": "ADMIN_DISCORD_ID",
+"YOOMONEY_ID": "YOOMONEY_WALLET_ID",
+"WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"})
 
-users = {
-    "DISCORD_ID": {
-        "login": "COSMETIC_NAME",
-        "proxy1": "PROXY_1",
-        "proxy2": "PROXY_2"
-    },
-}
-
-faq = {
+Config.Fill(FAQ_PATH, {
     "CATEGORY": {
         "QUESTION": "ANSWER"
     },
     "CATEGORY2": {
         "QUESTION": "ANSWER"
     }
-}
+})
 
-Config.Fill(ROOT_PATH, root, True)
-Config.Fill(FAQ_PATH, faq)
-Config.Fill(USERS_PATH, users)
+Config.Fill(USERS_PATH, {
+"DISCORD_ID": {
+    "login": "COSMETIC_NAME",
+    "proxy1": "PROXY_1",
+    "proxy2": "PROXY_2"
+}})
+
+Config.Fill(DIFF_PATH, {
+    "CATEGORY":
+    [
+        "ANSWER_1",
+        "ANSWER_2"
+    ]
+})
