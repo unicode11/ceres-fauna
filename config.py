@@ -8,13 +8,13 @@ class Config:
     def __init__(self, name):
         self.name = name
     
-    def check(path:str):
+    def Check(path:str):
         if path.lower().endswith('.json'):
             return "json"
         else:
             return "env"
 
-    def make_path(
+    def MakePath(
             path: str,
             create: bool
     ):
@@ -29,7 +29,7 @@ class Config:
         else:
             return path
         
-    def read(path:str, to_read=None):
+    def Read(path:str, to_read=None):
         try:
             if Config.check(path)=="json":
                 with open(path, "r") as f:
@@ -44,11 +44,11 @@ class Config:
                 return os.getenv(to_read, f"{to_read}")
                     
         except:
-            print(f"[CONFIG---{path}] couldn't read, provided key - {to_read}") # oopsie woopsie стоило раньше это сделать)
+            print(f"[CONFIG---{path}] couldn't Read, provided key - {to_read}") # oopsie woopsie стоило раньше это сделать)
 
 
         
-    def populate(path, example, to_edit=False):
+    def Fill(path, example, to_edit=False):
         if Config.check(path)=="json":
             with open(path,'r', encoding="utf-8") as f:
                 data = json.load(f)
@@ -70,10 +70,10 @@ class Config:
                     print(f"[CONFIG---{path}] added {var}")
                     dotenv.set_key(path, var, ex)
             
-USERS_PATH = Config.make_path("users.json", True)  # path that have user data for /request_access (rq_acc.py) command
-ROOT_PATH = Config.make_path("root_data.env", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
-FAQ_PATH = Config.make_path("questions.json",True) # path that have FAQ and answers (auto-filled, do not add new objects)
-XRAY_CFG_PATH = Config.make_path("config_xray.json", False)  # path, created by xray service, no need to create this by bot
+USERS_PATH = Config.MakePath("users.json", True)  # path that have user data for /request_access (rq_acc.py) command
+ROOT_PATH = Config.MakePath("root_data.env", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
+FAQ_PATH = Config.MakePath("questions.json", True) # path that have FAQ and answers (auto-filled, do not add new objects)
+XRAY_CFG_PATH = Config.MakePath("config_xray.json", False)  # path, created by xray service, no need to create this by bot
 
 root = {
     "TOKEN": "DISCORD_BOT_TOKEN",
@@ -99,6 +99,6 @@ faq = {
     }
 }
 
-Config.populate(ROOT_PATH, root, True)
-Config.populate(FAQ_PATH, faq)
-Config.populate(USERS_PATH, users)
+Config.Fill(ROOT_PATH, root, True)
+Config.Fill(FAQ_PATH, faq)
+Config.Fill(USERS_PATH, users)

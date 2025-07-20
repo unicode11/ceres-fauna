@@ -7,6 +7,6 @@ class Bot:
     
     async def checkRoot(id):
         interaction: discord.Interaction
-        if not(str(id) == read(ROOT_PATH, "ROOT_ID")):
+        if not(str(id) == Config.Read(ROOT_PATH, "ROOT_ID")):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return

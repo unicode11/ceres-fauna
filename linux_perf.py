@@ -31,7 +31,7 @@ class linux_perf(commands.Cog):
     @app_commands.describe(command="Command to run.")
     @app_commands.choices(command=[app_commands.Choice(name=cmd, value=cmd) for cmd in possible_commands])
     async def linux_perf(self, interaction: discord.Interaction, *, command: str):
-        if not(str(interaction.user.id) == Config.read(ROOT_PATH, "ROOT_ID")):
+        if not(str(interaction.user.id) == Config.Read(ROOT_PATH, "ROOT_ID")):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return
         out, err = run(command)

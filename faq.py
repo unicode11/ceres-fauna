@@ -4,7 +4,7 @@ from discord.ext import commands
 import json
 from config import *
 
-FAQ = Config.read(FAQ_PATH)
+FAQ = Config.Read(FAQ_PATH)
 
 class faq_ui(discord.ui.View):
     def __init__(self, category, questions, user, timeout=60):
