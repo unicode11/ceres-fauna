@@ -31,7 +31,7 @@ class Config:
         
     def Read(path:str, to_read=None):
         try:
-            if Config.check(path)=="json":
+            if Config.Check(path)=="json":
                 with open(path, "r") as f:
                     if to_read:
                         print(f"[CONFIG---{path}] {to_read} - success")
@@ -41,15 +41,17 @@ class Config:
                         return json.load(f)
             else:
                 dotenv.load_dotenv(path)
+                
+                print(f"[CONFIG---{path}] {to_read} - success")
                 return os.getenv(to_read, f"{to_read}")
                     
         except:
-            print(f"[CONFIG---{path}] couldn't Read, provided key - {to_read}") # oopsie woopsie стоило раньше это сделать)
+            print(f"[CONFIG---{path}] couldn't Read, provided key - {to_read}")
 
 
         
     def Fill(path, example, to_edit=False):
-        if Config.check(path)=="json":
+        if Config.Check(path)=="json":
             with open(path,'r', encoding="utf-8") as f:
                 data = json.load(f)
                 
