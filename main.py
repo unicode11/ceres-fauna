@@ -12,11 +12,11 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 cogs = [
     "rq_acc",
-    "add_user",
+    # "add_user",
     "linux_perf",
     "payment",
-    "edit_user",
-    "faq"
+    # "edit_user",
+    # "faq"
 ]
 
 @bot.event
