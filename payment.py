@@ -7,8 +7,8 @@ from discord.ext import commands
 
 from config import *
 
-YM = read(ROOT_PATH, "YOOMONEY_ID")
-WB = read(ROOT_PATH, "WEBHOOK")
+YM = Config.read(ROOT_PATH, "YOOMONEY_ID")
+WB = Config.read(ROOT_PATH, "WEBHOOK")
 YM_URL = "https://yoomoney.ru/quickpay/confirm"
 GIF = "https://cdn.discordapp.com/attachments/1149826600167297135/1226869385323483136/14.gif?ex=6856a3a7&is=68555227&hm=2f960382d560aa7e09dc7f8350f17841d0b53457cc20cd041e362c2c651c7030&"
 
@@ -93,7 +93,7 @@ class payment(commands.Cog):
     async def payment(self, 
                       interaction: discord.Interaction,
                       amount: float):
-        if amount <= 10 and not interaction.user.id==read(ROOT_PATH, "ROOT_ID"): # для дебаггинга (я не буду 11 рублей отпроавлять)
+        if amount <= 10 and not interaction.user.id==Config.read(ROOT_PATH, "ROOT_ID"): # для дебаггинга (я не буду 11 рублей отпроавлять)
             await interaction.response.send_message("Введена слишком маленькая сумма! ~~Нищеброд ебанный~~",ephemeral=True)
             return
         
@@ -122,7 +122,7 @@ class payment(commands.Cog):
         
     @app_commands.command(name="check_payment",description="Проверить оплату.")
     async def check_payment(self, interaction: discord.Interaction, label: str):
-        if not(str(interaction.user.id) == read(ROOT_PATH, "ROOT_ID")):
+        if not(str(interaction.user.id) == Config.read(ROOT_PATH, "ROOT_ID")):
             await interaction.response.send_message("Команда в разработке.", ephemeral=True)
             return
 

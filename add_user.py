@@ -35,7 +35,7 @@ class add_user(commands.Cog):
                        user: discord.Member ,
                        name: str
                        ):
-        if not(str(interaction.user.id) == read(ROOT_PATH, "ROOT_ID")):
+        if not(str(interaction.user.id) == Config.read(ROOT_PATH, "ROOT_ID")):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return
         
