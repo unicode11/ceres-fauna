@@ -22,7 +22,7 @@ class Config:
         
         if not os.path.exists(full_path) and create:
             with open(path, 'w', encoding='utf-8') as f:
-                if Config.check(path)=="json":
+                if Config.Check(path)=="json":
                     json.dump({}, f, ensure_ascii=False, indent=4)
                 else:
                     pass
