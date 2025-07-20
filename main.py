@@ -43,7 +43,7 @@ async def main():
             print(f"{cog}")
         print(">> DONE")
 
-        await bot.start(read(ROOT_PATH)["token"])
+        await bot.start(read(ROOT_PATH, "TOKEN"))
 
 
 asyncio.run(main())

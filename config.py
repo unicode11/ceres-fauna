@@ -1,51 +1,89 @@
 import os
 import json
+import dotenv
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # линуксоиды уебаны если что
 
+def check(path:str):
+    if path.lower().endswith('.json'):
+        return "json"
+    else:
+        return "env"
+
 def make_path(
-        filepath: str,
+        path: str,
         create: bool
 ):
-    full_path = os.path.join(BASE_DIR, filepath)
+    full_path = os.path.join(BASE_DIR, path)
     
     if not os.path.exists(full_path) and create:
-        with open(filepath, 'w', encoding='utf-8') as f:
-            if filepath.lower().endswith('.json'):
+        with open(path, 'w', encoding='utf-8') as f:
+            if check(path)=="json":
                 json.dump({}, f, ensure_ascii=False, indent=4)
             else:
                 pass
     else:
-        return filepath
+        return path
     
-def read(path:str):
+def read(path:str, to_read=None):
     try:
-        with open(path, "r") as f:
-            return json.load(f)
+        if check(path)=="json":
+            with open(path, "r") as f:
+                if to_read:
+                    print(f"[CONFIG---{path}] {to_read} - success")
+                    return json.load(f)[to_read]
+                else:   
+                    print(f"[CONFIG---{path}] {to_read} - success")
+                    return json.load(f)
+        else:
+            dotenv.load_dotenv(path)
+            return os.getenv(to_read, f"{to_read}")
+                
     except:
-        f"couldn't read {path}" # oopsie woopsie стоило раньше это сделать)
+        print(f"[CONFIG---{path}] couldn't read, provided key - {to_read}") # oopsie woopsie стоило раньше это сделать)
+
 
     
-def populate(config_file, config_json_example, to_edit=False):
-    with open(config_file,'r', encoding="utf-8") as f:
-        data = json.load(f)
-        
-    required = set(config_json_example.keys())
-    if not required.issubset(data) and to_edit:
-        with open(config_file, 'w', encoding='utf-8') as f:
-            print(f"saving {root}")
-            json.dump(config_json_example, f, ensure_ascii=False, indent=4)
+def populate(path, example, to_edit=False):
+    if check(path)=="json":
+        with open(path,'r', encoding="utf-8") as f:
+            data = json.load(f)
             
-USERS_PATH = make_path("users.json", True)  # path that will be created by "add_user" command
-ROOT_PATH = make_path("root_data.json", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
+        required = set(example.keys())
+        if not required.issubset(data) and to_edit:
+            with open(path, 'w', encoding='utf-8') as f:
+                print(f"saving {root}")
+                json.dump(example, f, ensure_ascii=False, indent=4)
+    else:
+        existing = dotenv.dotenv_values(path)
+        for var,ex in example.items():
+            if var in existing:
+                print(f"[CONFIG---{path}] {var} existing, skipping...")
+                continue
+            
+            tw = os.environ.get(var)
+            if tw == None:
+                print(f"[CONFIG---{path}] added {var}")
+                dotenv.set_key(path, var, ex)
+            
+USERS_PATH = make_path("users.json", True)  # path that have user data for /request_access (rq_acc.py) command
+ROOT_PATH = make_path("root_data.env", True)  # path with essential configs for bot to run properly (auto-filled, do not add new objects)
 FAQ_PATH = make_path("questions.json",True) # path that have FAQ and answers (auto-filled, do not add new objects)
 XRAY_CFG_PATH = make_path("config_xray.json", False)  # path, created by xray service, no need to create this by bot
 
 root = {
-    "token": "BOT_TOKEN_HERE",
-    "root_id": "ADMIN_DISCORD_ID",
-    "yoomoney_id": "YOOMONEY_WALLET_ID",
-    "webhook": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
+    "TOKEN": "DISCORD_BOT_TOKEN",
+    "ROOT_ID": "ADMIN_DISCORD_ID",
+    "YOOMONEY_ID": "YOOMONEY_WALLET_ID",
+    "WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
+}
+
+users = {
+    "DISCORD_ID": {
+        "login": "COSMETIC_NAME",
+        "proxy1": "PROXY_1",
+        "proxy2": "PROXY_2"
+    },
 }
 
 faq = {
@@ -59,3 +97,4 @@ faq = {
 
 populate(ROOT_PATH, root, True)
 populate(FAQ_PATH, faq)
+populate(USERS_PATH, users)

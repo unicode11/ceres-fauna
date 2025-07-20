@@ -10,7 +10,7 @@ class edit_user(commands.Cog):
 
     @app_commands.command(name="edit_user", description="ROOT_EDIT_USER_CMD.")
     async def edit_user(self, interaction: discord.Interaction):
-        if not(str(interaction.user.id) == read(ROOT_PATH)["root_id"]):
+        if not(str(interaction.user.id) == read(ROOT_PATH, "ROOT_ID")):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return
         print("test")
