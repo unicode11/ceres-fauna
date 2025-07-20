@@ -36,12 +36,12 @@ async def on_app_command_error(interaction: discord.Interaction, error):
 
 
 async def main():
-    print(">> LOAD")
+    print("[BOT] >> LOAD")
     async with bot:
         for cog in cogs:
             await bot.load_extension(f'{cog}')
-            print(f"{cog}")
-        print(">> DONE")
+            print(f"[BOT] {cog}")
+        print("[BOT] >> DONE")
 
         await bot.start(Config.Read(ROOT_PATH, "TOKEN"))
 
