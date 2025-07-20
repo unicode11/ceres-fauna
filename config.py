@@ -33,20 +33,15 @@ class Config:
         try:
             if Config.Check(path)=="json":
                 with open(path, "r") as f:
-                    if to_read:
-                        print(f"[CONFIG---{path}] {to_read} - success")
-                        return json.load(f)[to_read]
-                    else:   
-                        print(f"[CONFIG---{path}] {to_read} - success")
-                        return json.load(f)
+                    print(f"[CONFIG---{path}] {to_read} - success")
+                    return json.load(f)
             else:
                 dotenv.load_dotenv(path)
-                
                 print(f"[CONFIG---{path}] {to_read} - success")
                 return os.getenv(to_read, f"{to_read}")
                     
         except:
-            print(f"[CONFIG---{path}] couldn't Read, provided key - {to_read}")
+            print(f"[CONFIG---{path}] couldn't read, provided key - {to_read}")
 
 
         

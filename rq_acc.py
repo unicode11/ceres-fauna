@@ -15,7 +15,7 @@ class rq_acc(commands.Cog):
         user_id = str(interaction.user.id)
 
         if user_id in Config.Read(USERS_PATH):
-            credentials = Config.Read(USERS_PATH, user_id)
+            credentials = Config.Read(USERS_PATH)[user_id]
             await interaction.user.send(
                 f"**Логин:** {credentials['login']}\n\n"
                 
