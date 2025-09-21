@@ -14,7 +14,7 @@ class edit_user(commands.Cog):
             await interaction.response.send_message(":x:.", ephemeral=True)
             return
         print("test")
-
+        
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.tree.sync()

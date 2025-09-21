@@ -12,37 +12,6 @@ WB = Config.Read(ROOT_PATH, "WEBHOOK")
 YM_URL = "https://yoomoney.ru/quickpay/confirm"
 GIF = "https://cdn.discordapp.com/attachments/1149826600167297135/1226869385323483136/14.gif?ex=6856a3a7&is=68555227&hm=2f960382d560aa7e09dc7f8350f17841d0b53457cc20cd041e362c2c651c7030&"
 
-def send(data: dict):
-    """
-    data: {
-        "discord_id": int,
-        "username": str,
-        "amount": float,
-        "label": str,
-        "operation_id": str
-    }
-    """
-    embed = {
-        "title": "💰 Новая оплата",
-        "color": 0x00ff00,
-        "fields": [
-            {"name": "Пользователь", "value": f"{data['username']} (`{data['discord_id']}`)", "inline": False},
-            {"name": "Сумма", "value": f"{data['amount']} ₽", "inline": True},
-            {"name": "Label", "value": data['label'], "inline": True}
-        ]
-    }
-
-    payload = {
-        "embeds": [embed]
-    }
-
-    response = requests.post(WB, json=payload)
-    
-    if response.status_code != 204 and response.status_code != 200:
-        print(f"{response.status_code}\n{response.text}")
-    else:
-        print("отправлено")
-
 def link(receiver: str, username: str, amount: float) -> tuple[str, str]:
     label = str(uuid.uuid4())
 

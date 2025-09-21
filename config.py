@@ -5,9 +5,6 @@ import dotenv
 BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # линуксоиды уебаны если что
 
 class Config:
-    def __init__(self, name):
-        self.name = name
-    
     def Check(path:str):
         if path.lower().endswith('.json'):
             return "json"
@@ -87,7 +84,8 @@ Config.Fill(ROOT_PATH, {
 "TOKEN": "DISCORD_BOT_TOKEN",
 "ROOT_ID": "ADMIN_DISCORD_ID",
 "YOOMONEY_ID": "YOOMONEY_WALLET_ID",
-"WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"})
+"WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
+})
 
 Config.Fill(FAQ_PATH, {
     "CATEGORY": {
