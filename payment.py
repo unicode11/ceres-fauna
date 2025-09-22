@@ -92,6 +92,7 @@ class Payment(commands.Cog):
             ephemeral=True,
             view=view
         )
+        notify_payment(interaction.user.id, label)
 
     @commands.Cog.listener()
     async def on_ready(self):
