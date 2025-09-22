@@ -10,7 +10,6 @@ from config import *
 CLIENT = Client(Config.Read(ROOT_PATH, "YOOMONEY_TOKEN"))
 YM = Config.Read(ROOT_PATH, "YOOMONEY_ID")
 WB = Config.Read(ROOT_PATH, "WEBHOOK_URL")
-YM_URL = "https://yoomoney.ru/quickpay/confirm"
 GIF = "https://cdn.discordapp.com/attachments/1149826600167297135/1226869385323483136/14.gif?ex=6856a3a7&is=68555227&hm=2f960382d560aa7e09dc7f8350f17841d0b53457cc20cd041e362c2c651c7030&"
 
 
@@ -22,13 +21,14 @@ def create_payment_link(receiver: str, amount: float) -> tuple[str, str]:
     )
     return link, label
 
-def notify_payment(user_id, label):
+def notify_payment(user_id, label, amount, operation_id):
     embed = {
-        "title": f"<@{user_id}>",
+        "title": "Я ебал твою маму",
         "color": 0x00FF00,
-        "description": f"<@{user_id}>.",
+        "description": f"<@{user_id}>. Оплата на сумму **{amount}₽**",
         "fields": [
             {"name": "Label", "value": f"`{label}`", "inline": True},
+            {"name": "ID", "value": f"`{operation_id}`", "inline": True},
         ],
     }
 
@@ -41,13 +41,14 @@ def notify_payment(user_id, label):
     except Exception as e:
         print(e)
 
-def check_payment(label: str, user_id: int) -> bool:
+def check_payment(label: str, user_id: int, amount: float) -> bool:
     try:
         operations = CLIENT.operation_history(label=label, records=1)
         if operations and operations.operations:
-            op = operations.operations[0]  
+            op = operations.operations[0]
+            operation_id = op.operation_id
             if op.status == 'success':
-                notify_payment(user_id, label)
+                notify_payment(user_id, label, amount, operation_id)
                 return True
         return False
     except Exception as e:
@@ -72,10 +73,10 @@ class Payment(commands.Cog):
 
         await interaction.user.send(GIF)
 
-        button = Button(label="Проверить пизду", style=discord.ButtonStyle.green)
+        button = Button(label="Проверить оплату", style=discord.ButtonStyle.green)
 
         async def button_callback(interaction_button: discord.Interaction):
-            if check_payment(label, interaction.user.id):
+            if check_payment(label, interaction.user.id, 0):
                 await interaction_button.response.send_message(
                     "✅", ephemeral=True
                 )
@@ -89,11 +90,11 @@ class Payment(commands.Cog):
         view.add_item(button)
 
         await interaction.response.send_message(
-            f"К оплате: **{amount}₽**\nСсылка для оплаты: {payment_link}\n~~Уникальный label: `{label}`~~",
+            f"К оплате: **{amount}₽**\nСсылка для оплаты: {payment_link}",
             ephemeral=True,
             view=view
         )
-        notify_payment(interaction.user.id, label)
+        notify_payment(interaction.user.id, label, amount)
 
     @commands.Cog.listener()
     async def on_ready(self):
