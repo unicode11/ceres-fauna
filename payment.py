@@ -26,6 +26,7 @@ def notify_payment(user_id, label):
     embed = {
         "title": f"<@{user_id}>",
         "color": 0x00FF00,
+        "description": f"<@{user_id}>.",
         "fields": [
             {"name": "Label", "value": f"`{label}`", "inline": True},
         ],
