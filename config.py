@@ -81,10 +81,11 @@ DIFF_PATH = Config.MakePath("diff.json") # path that contains various answers fo
 # XRAY_CFG_PATH = Config.MakePath("config_xray.json", False)  # path, created by xray service, no need to create this by bot
 
 Config.Fill(ROOT_PATH, {
-"TOKEN": "DISCORD_BOT_TOKEN",
-"ROOT_ID": "ADMIN_DISCORD_ID",
-"YOOMONEY_ID": "YOOMONEY_WALLET_ID",
-"WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS"
+"TOKEN": "DISCORD_BOT_TOKEN (bot token from discord dev portal)",
+"ROOT_ID": "ADMIN_DISCORD_ID (to restrict access to certain commands)",
+"YOOMONEY_ID": "YOOMONEY_WALLET_ID (to receive payments)",
+"WEBHOOK_URL": "DISCORD_WEBHOOK_TO_GET_PAYMENTS (check below)",
+"YOOMONEY_TOKEN": "YOOMONEY_TOKEN (to check payments, generate in yoomoney bot account)"
 })
 
 Config.Fill(FAQ_PATH, {
